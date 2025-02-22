@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require('cors');
 const app = express();
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
@@ -20,6 +21,9 @@ mongoose.connect(process.env.MONGODB_URI)
 const User = require("./models/User");
 const Message = require("./models/Message");
 const Room = require("./models/Room");
+
+app.use(cors());
+app.use(express.json());
 
 
 //statci files
