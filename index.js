@@ -22,7 +22,13 @@ const User = require("./models/User");
 const Message = require("./models/Message");
 const Room = require("./models/Room");
 
-app.use(cors());
+// Allow only a specific origin
+const corsOptions = {
+    origin: 'https://my-chatapp-backend.netlify.app/', // Replace with your frontend URL
+    optionsSuccessStatus: 200, // Some legacy browsers choke on 204
+  };
+  
+  app.use(cors(corsOptions));
 app.use(express.json());
 
 
