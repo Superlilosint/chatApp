@@ -4,8 +4,15 @@ const mongoose = require("mongoose");
 const cors = require('cors');
 const app = express();
 const server = require("http").createServer(app);
-const io = require("socket.io")(server);
-
+const io = require('socket.io')(server, {
+    cors: {
+      origin: ['https://my-chatapp-backend.netlify.app', 'http://localhost:3000'], // Allowed origins
+      methods: ['GET', 'POST'], // Allowed HTTP methods
+      allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+      credentials: true, // Allow credentials (cookies, authorization headers)
+    },
+  });
+  
 
 //connect to mongoDB
 mongoose.connect(process.env.MONGODB_URI)
