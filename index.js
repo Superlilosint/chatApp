@@ -22,13 +22,27 @@ const User = require("./models/User");
 const Message = require("./models/Message");
 const Room = require("./models/Room");
 
-// Allow only a specific origin
-const corsOptions = {
-    origin: 'https://my-chatapp-backend.netlify.app', // Replace with your frontend URL
-    optionsSuccessStatus: 200, // Some legacy browsers choke on 204
-  };
+
+// Define allowed origins
+const allowedOrigins = [
+    'https://my-chatapp-backend.netlify.app',
+    'http://localhost:3000', // Allow local development
+  ];
   
-  app.use(cors(corsOptions));
+
+  const corsOptions = {
+    origin: function (origin, callback) {
+      if (allowedOrigins.includes(origin) || !origin) {
+        callback(null, true); // Allow the request
+      } else {
+        callback(new Error('Not allowed by CORS')); // Block the request
+      }
+    },
+    methods: 'GET,POST,PUT,DELETE', // Allowed HTTP methods
+    allowedHeaders: 'Content-Type,Authorization', // Allowed headers
+    credentials: true, // Allow cookies and credentials
+  };  
+app.use(cors(corsOptions));
 app.use(express.json());
 
 
