@@ -1,4 +1,4 @@
-const socket = io();
+const socket = io("https://chatapp-072l.onrender.com");
 let currentRoom = null;
 let currentUser = null;
 
