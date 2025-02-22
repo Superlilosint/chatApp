@@ -24,7 +24,7 @@ const Room = require("./models/Room");
 
 // Allow only a specific origin
 const corsOptions = {
-    origin: 'https://my-chatapp-backend.netlify.app/', // Replace with your frontend URL
+    origin: 'https://my-chatapp-backend.netlify.app', // Replace with your frontend URL
     optionsSuccessStatus: 200, // Some legacy browsers choke on 204
   };
   
