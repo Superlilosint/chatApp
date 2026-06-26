@@ -21,32 +21,40 @@ function findOrCreateUser(profile, provider, done) {
     .catch((err) => done(err, null));
 }
 
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: env.google.clientId,
-      clientSecret: env.google.clientSecret,
-      callbackURL: env.google.callbackUrl,
-      scope: ['profile', 'email'],
-    },
-    (accessToken, refreshToken, profile, done) => {
-      findOrCreateUser(profile, 'google', done);
-    }
-  )
-);
+if (env.google.clientId && env.google.clientSecret) {
+  passport.use(
+    new GoogleStrategy(
+      {
+        clientID: env.google.clientId,
+        clientSecret: env.google.clientSecret,
+        callbackURL: env.google.callbackUrl,
+        scope: ['profile', 'email'],
+      },
+      (accessToken, refreshToken, profile, done) => {
+        findOrCreateUser(profile, 'google', done);
+      }
+    )
+  );
+} else {
+  console.warn('Google OAuth not configured — skipping');
+}
 
-passport.use(
-  new GitHubStrategy(
-    {
-      clientID: env.github.clientId,
-      clientSecret: env.github.clientSecret,
-      callbackURL: env.github.callbackUrl,
-      scope: ['user:email'],
-    },
-    (accessToken, refreshToken, profile, done) => {
-      findOrCreateUser(profile, 'github', done);
-    }
-  )
-);
+if (env.github.clientId && env.github.clientSecret) {
+  passport.use(
+    new GitHubStrategy(
+      {
+        clientID: env.github.clientId,
+        clientSecret: env.github.clientSecret,
+        callbackURL: env.github.callbackUrl,
+        scope: ['user:email'],
+      },
+      (accessToken, refreshToken, profile, done) => {
+        findOrCreateUser(profile, 'github', done);
+      }
+    )
+  );
+} else {
+  console.warn('GitHub OAuth not configured — skipping');
+}
 
 module.exports = passport;
